@@ -3,9 +3,31 @@
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
 import { ComponentStoryObj, ComponentMeta } from '@storybook/react';
-import { screen } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
+import { userEvent, screen } from '@storybook/testing-library'
+import { TextField, Button, addActionWrapper } from '@interactors/html';
 import { AccountForm } from './AccountForm';
+
+let inActionWrapper = false;
+addActionWrapper((description, action) => async () => {
+  if(inActionWrapper) {
+    return await action();
+  }
+
+  try {
+    inActionWrapper = true;
+    // @ts-ignore
+    const instrumenter: any = global.window.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER__;
+    return await instrumenter.track('foo',
+      async() => {
+        return await action();
+      },
+      [],
+      { intercept: () => true }
+    );
+  } finally {
+    inActionWrapper = false;
+  }
+});
 
 export default {
   // Title not needed due to CSF3 auto-title
@@ -85,12 +107,9 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 export const VerificationSuccess = {
   ...Verification,
   play: async () => {
-    await StandardEmailFilled.play();
-    await sleep(1000);
-    await userEvent.type(screen.getByTestId('password1'), 'asdfasdf', { delay: 50 });
-    await sleep(1000);
-    await userEvent.type(screen.getByTestId('password2'), 'asdfasdf', { delay: 50 });
-    await sleep(1000);
-    await userEvent.click(screen.getByTestId('submit'));
+    await TextField('Email').fillIn('michael@chromatic.com');
+    await TextField('Password').fillIn('asdfasdf');
+    await TextField('Verify Password').fillIn('asdfasdf');
+    await Button('CREATE ACCOUNT').click();
   },
 };

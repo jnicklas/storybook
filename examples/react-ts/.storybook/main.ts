@@ -13,6 +13,7 @@ const config: StorybookConfig = {
     '@storybook/addon-storysource',
     '@storybook/addon-storyshots',
     '@storybook/addon-a11y',
+    '@storybook/addon-interactions',
   ],
   typescript: {
     check: true,
@@ -32,6 +33,7 @@ const config: StorybookConfig = {
     buildStoriesJson: true,
     babelModeV7: true,
     warnOnLegacyHierarchySeparator: false,
+    interactionsDebugger: true,
   },
   framework: '@storybook/react',
 };

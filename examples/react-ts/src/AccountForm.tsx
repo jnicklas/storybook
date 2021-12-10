@@ -268,6 +268,7 @@ export const AccountForm: FC<AccountFormProps> = ({
                       {({ field }: { field: HTMLAttributes<HTMLInputElement> }) => (
                         <>
                           <Input
+                            id="email"
                             data-testid="email"
                             aria-required="true"
                             aria-disabled={isSubmitting ? 'true' : 'false'}
@@ -295,6 +296,7 @@ export const AccountForm: FC<AccountFormProps> = ({
                     <FormikInput id="password" name="password">
                       {({ field }: { field: HTMLAttributes<HTMLInputElement> }) => (
                         <Input
+                          id="password"
                           data-testid="password1"
                           aria-required="true"
                           aria-disabled={isSubmitting ? 'true' : 'false'}
@@ -320,6 +322,7 @@ export const AccountForm: FC<AccountFormProps> = ({
                       <FormikInput id="verifiedPassword" name="verifiedPassword">
                         {({ field }: { field: HTMLAttributes<HTMLInputElement> }) => (
                           <Input
+                            id="verifiedPassword"
                             data-testid="password2"
                             aria-required="true"
                             aria-disabled={isSubmitting ? 'true' : 'false'}
